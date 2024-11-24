@@ -133,7 +133,7 @@
         const image = document.getElementById("image");
         
         function updateCanvas() {
-            let text = textElement.value.replace(/(?<! ) (?! )/g, "|");
+            let text = decodeURIComponent(JSON.parse(textElement.value)).replace(/(?<! ) (?! )/g, "|");
 
             text = text.split("\n");
 
