@@ -58,11 +58,19 @@
         }
 
         #input .color label {
+            box-sizing: border-box;
             font-size: 20px;
-            display: inline-block;
+            display: inline-flex;
+            flex-direction: row;
+            gap: 4px;
+            align-items: last-baseline;
+            border: 2px solid black;
+            border-radius: 4px;
+            background-color:white;
+            color: black;
+            padding: 5px;
+            text-align: center;
         }
-
-        
 
         #input textarea {
             display: inline;
@@ -79,6 +87,7 @@
             width: 400px;
             height: 400px;
             box-sizing: border-box;
+            border: 4px double black;
             border-radius: 4px;
         }
     </style>
@@ -94,8 +103,14 @@
                 <textarea name="text" id="text" cols="43" rows="5" autocorrect="off" autocapitalize="off" spellcheck="false">ale li pona</textarea>
                 
                 <div class="color">
-                    <label>Text color: <input type="color" id="text-color" name="text-color" value="#ffffff" /></label>
-                    <label>Background color: <input type="color" id="background-color" name="background-color" value="#000000" /></label>
+                    <label>
+                        <div>Text color:</div>
+                        <input type="color" id="text-color" name="text-color" value="#ffffff" />
+                    </label>
+                    <label>
+                        <div>Background color:</div>
+                        <input type="color" id="background-color" name="background-color" value="#000000" />
+                    </label>
                 </div>
             </form>
         </div>
