@@ -133,7 +133,11 @@
         const image = document.getElementById("image");
         
         function updateCanvas() {
-            let text = decodeURIComponent(JSON.parse(textElement.value)).replace(/(?<! ) (?! )/g, "|");
+            let text = textElement.value.replace(/(?<! ) (?! )/g, "|");
+
+            text = text.replace (/\\x([0-9A-F]{2})/gi, function (a,b) { return String.fromCharCode(parseInt(b,16)); });
+            text = text.replace (/\\u([0-9A-F]{4})/gi, function (a,b) { return String.fromCharCode(parseInt(b,16)); });
+            text = text.replace (/\\u\{([0-9A-F]+)\}/gi, function (a,b) { return String.fromCharCode(parseInt(b,16)); });
 
             text = text.split("\n");
 
