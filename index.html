@@ -150,7 +150,7 @@
                     </label>
                 </div>
                 <label class="font-toggle-label">
-                    <div>Use better supporting font</div>
+                    <div>Use alternative font</div>
                     <input type="checkbox" name="font-toggle" id="font-toggle">
                 </label>
             </form>
@@ -199,7 +199,7 @@
             if (fontToggleElement.checked) {
                 ctx.font = "180px 'FairfaxPonaHD'";
             } else {
-                ctx.font = "180px 'nasin-nanpa'";
+                ctx.font = "180px 'nasin-nanpa', 180px 'FairfaxPonaHD'";
             }
 
             for (let i = 0; i < text.length; i++) {
