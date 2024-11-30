@@ -10,6 +10,11 @@
             src: url(nasin-nanpa-4.0.1.otf);
         }
 
+        @font-face {
+            font-family: 'nasin-nanpa-UCSUR';
+            src: url(nasin-nanpa-4.0.1-UCSUR.otf);
+        }
+
         #font-loader1 {
             position: fixed;
             bottom: 0;
@@ -26,6 +31,11 @@
         @font-face {
             font-family: 'FairfaxPonaHD';
             src: url(FairfaxPonaHD.ttf);
+        }
+
+        @font-face {
+            font-family: 'FairfaxHD';
+            src: url(FairfaxHD.ttf);
         }
 
         #font-loader2 {
@@ -178,6 +188,10 @@
         
         function updateCanvas() {
             let text = textElement.value;
+
+            let re = new RegExp(String.raw`\s${variable}\s`, "g");
+
+            text.match(re);
 
             if (!fontToggleElement.checked) {
                 text = text.replace(/(?<! ) (?! )/g, "|");
