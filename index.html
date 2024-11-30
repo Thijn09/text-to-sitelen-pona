@@ -11,34 +11,11 @@
         }
 
         @font-face {
-            font-family: 'nasin-nanpa-UCSUR';
-            src: url(nasin-nanpa-4.0.1-UCSUR.otf);
-        }
-
-        #font-loader1 {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            padding: 0;
-            margin: 0;
-            outline: none;
-            border: none;
-            font-family: 'nasin-nanpa';
-        }
-
-        @font-face {
             font-family: 'FairfaxPonaHD';
             src: url(FairfaxPonaHD.ttf);
         }
 
-        @font-face {
-            font-family: 'FairfaxHD';
-            src: url(FairfaxHD.ttf);
-        }
-
-        #font-loader2 {
+        .font-loader {
             position: fixed;
             bottom: 0;
             left: 0;
@@ -48,7 +25,12 @@
             margin: 0;
             outline: none;
             border: none;
-            font-family: 'FairfaxPonaHD';
+            .nasin-nanpa {
+                font-family: 'nasin-nanpa';
+            }
+            .FairfaxPonaHD {
+                font-family: 'FairfaxPonaHD';
+            }
         }
 
         body {
@@ -167,8 +149,8 @@
         </div>
         <img id="image">
     </div>
-    <span id="font-loader1">&#x200B;</span>
-    <span id="font-loader2">&#x200B;</span>
+    <span class="font-loader nasin-nanpa">&#x200B;</span>
+    <span class="font-loader FairfaxPonaHD">&#x200B;</span>
     <script>
         const form = document.getElementById("input");
 
@@ -189,10 +171,6 @@
         function updateCanvas() {
             let text = textElement.value;
 
-            let re = new RegExp(String.raw`\s${variable}\s`, "g");
-
-            text.match(re);
-
             if (!fontToggleElement.checked) {
                 text = text.replace(/(?<! ) (?! )/g, "|");
             }
@@ -203,7 +181,6 @@
 
             text = text.split("\n");
 
-
             ctx.rect(0, 0, 2048, 2048);
             ctx.fillStyle = backgroundColorElement.value;
             ctx.fill();
@@ -213,7 +190,7 @@
             if (fontToggleElement.checked) {
                 ctx.font = "180px 'FairfaxPonaHD'";
             } else {
-                ctx.font = "180px 'nasin-nanpa', 'FairfaxPonaHD'";
+                ctx.font = "180px 'nasin-nanpa'";
             }
 
             for (let i = 0; i < text.length; i++) {
