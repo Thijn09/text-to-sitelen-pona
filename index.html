@@ -142,8 +142,8 @@
         const textElement = document.getElementById("text");
 
         const canvas = document.createElement("canvas");
-        canvas.width = 2048;
-        canvas.height = 2048;
+        canvas.width = 4096;
+        canvas.height = 4096;
         const ctx = canvas.getContext("2d");
 
         const textColorElement = document.getElementById("text-color");
@@ -160,18 +160,17 @@
 
             text = text.split("\n");
 
-            ctx.rect(0, 0, 2048, 2048);
+            ctx.rect(0, 0, 4096, 4096);
             ctx.fillStyle = backgroundColorElement.value;
             ctx.fill();
 
             ctx.fillStyle = textColorElement.value;
             
-            ctx.font = "230px 'sitelen-seli-kiwen-asuki'";
+            ctx.font = "460px 'sitelen-seli-kiwen-asuki'";
 
             for (let i = 0; i < text.length; i++) {
-                ctx.fillText(text[i], 80, 250+i*220);
+                ctx.fillText(text[i], 160, 520+i*440);
             }
-
 
             image.src = canvas.toDataURL('image/jpeg');
         }
