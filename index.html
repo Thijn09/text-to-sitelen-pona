@@ -6,13 +6,8 @@
     <title>text to sitelen pona</title>
     <style>
         @font-face {
-            font-family: 'nasin-nanpa';
-            src: url(nasin-nanpa-4.0.1.otf);
-        }
-
-        @font-face {
-            font-family: 'FairfaxPonaHD';
-            src: url(FairfaxPonaHD.ttf);
+            font-family: 'sitelen-seli-kiwen-asuki';
+            src: url(sitelenselikiwenasuki.ttf);
         }
 
         .font-loader {
@@ -25,12 +20,7 @@
             margin: 0;
             outline: none;
             border: none;
-            .nasin-nanpa {
-                font-family: 'nasin-nanpa';
-            }
-            .FairfaxPonaHD {
-                font-family: 'FairfaxPonaHD';
-            }
+            font-family: 'sitelen-seli-kiwen-asuki';
         }
 
         body {
@@ -56,7 +46,7 @@
         }
 
         .left-container .title h1 {
-            font-family: 'nasin-nanpa';
+            font-family: 'sitelen-seli-kiwen-asuki';
             margin: 0;
             padding: 0;
         }
@@ -125,7 +115,7 @@
     <div class="flex-container">
         <div class="left-container">
             <div class="title">
-                <h1>o|sitelen|lon|ma|ni</h1>
+                <h1>o sitelen lon ma ni</h1>
                 <p>Enter your text here:</p>
             </div>
             <form id="input">
@@ -141,16 +131,11 @@
                         <input type="color" id="background-color" name="background-color" value="#000000" />
                     </label>
                 </div>
-                <label class="font-toggle-label">
-                    <div>Use alternative font</div>
-                    <input type="checkbox" name="font-toggle" id="font-toggle">
-                </label>
             </form>
         </div>
         <img id="image">
     </div>
-    <span class="font-loader nasin-nanpa">&#x200B;</span>
-    <span class="font-loader FairfaxPonaHD">&#x200B;</span>
+    <span class="font-loader">&#x200B;</span>
     <script>
         const form = document.getElementById("input");
 
@@ -164,16 +149,10 @@
         const textColorElement = document.getElementById("text-color");
         const backgroundColorElement = document.getElementById("background-color");
 
-        const fontToggleElement = document.getElementById("font-toggle");
-
         const image = document.getElementById("image");
         
         function updateCanvas() {
             let text = textElement.value;
-
-            if (!fontToggleElement.checked) {
-                text = text.replace(/(?<! ) (?! )/g, "|");
-            }
 
             text = text.replace (/\\x([0-9A-F]{2})/gi, function (a,b) { return String.fromCharCode(parseInt(b,16)); });
             text = text.replace (/\\u([0-9A-F]{4})/gi, function (a,b) { return String.fromCharCode(parseInt(b,16)); });
@@ -187,11 +166,7 @@
 
             ctx.fillStyle = textColorElement.value;
             
-            if (fontToggleElement.checked) {
-                ctx.font = "180px 'FairfaxPonaHD'";
-            } else {
-                ctx.font = "180px 'nasin-nanpa'";
-            }
+            ctx.font = "180px 'sitelen-seli-kiwen-asuki'";
 
             for (let i = 0; i < text.length; i++) {
                 ctx.fillText(text[i], 80, 240+i*220);
