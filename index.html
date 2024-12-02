@@ -70,7 +70,7 @@
             flex-direction: row;
         }
 
-        #input .color label, .font-toggle-label {
+        #input label {
             box-sizing: border-box;
             font-size: 20px;
             display: inline-flex;
@@ -85,11 +85,6 @@
             text-align: center;
         }
 
-        .font-toggle-label {
-            max-width: fit-content;
-            width: 100%;
-        }
-
         #input textarea {
             display: inline;
             grid-area: text;
@@ -99,7 +94,7 @@
             margin-bottom: 5px;
         }
 
-        #image {
+        #canvas,#image {
             grid-area: image;
             float: left;
             width: 100%;
@@ -130,28 +125,38 @@
                         <div>Background color</div>
                         <input type="color" id="background-color" name="background-color" value="#000000" />
                     </label>
+                    <label>
+                        <div>Text size</div>
+                        <input type="range" min="1" max="460" value="400" id="font-size" />
+                    </label>
                 </div>
             </form>
         </div>
-        <img id="image">
+        <canvas id="canvas"></canvas>
+        <img id="image" />
     </div>
     <span class="font-loader">&#x200B;</span>
     <script>
+        
         const form = document.getElementById("input");
 
         const textElement = document.getElementById("text");
 
-        const canvas = document.createElement("canvas");
+        const canvas = document.getElementById("canvas");
         canvas.width = 4096;
         canvas.height = 4096;
         const ctx = canvas.getContext("2d");
 
         const textColorElement = document.getElementById("text-color");
         const backgroundColorElement = document.getElementById("background-color");
+        const fontSizeElement = document.getElementById("font-size");
 
         const image = document.getElementById("image");
         
         function updateCanvas() {
+            image.style.display = "none";
+            canvas.style.display = "initial";
+
             let text = textElement.value;
 
             text = text.replace (/\\x([0-9A-F]{2})/gi, function (a,b) { return String.fromCharCode(parseInt(b,16)); });
@@ -165,21 +170,38 @@
             ctx.fill();
 
             ctx.fillStyle = textColorElement.value;
+
+            let fontSize = parseFloat(fontSizeElement.value);
             
-            ctx.font = "460px 'sitelen-seli-kiwen-asuki'";
+            ctx.font = `${fontSize}px 'sitelen-seli-kiwen-asuki'`;
 
             for (let i = 0; i < text.length; i++) {
-                ctx.fillText(text[i], 160, 520+i*440);
+                ctx.fillText(text[i], 150+fontSize/4, 200+(fontSize)+i*fontSize);
+                
             }
+            
+        }
+
+        function createImage() {
+            canvas.style.display = "none";
+            image.style.display = "initial";
 
             image.src = canvas.toDataURL('image/jpeg');
         }
 
         document.fonts.ready.then(function () {
-            updateCanvas()
+            updateCanvas();
+            createImage();
         });
 
-        form.oninput = () => updateCanvas();
+        form.oninput = () => {
+            updateCanvas();
+        }
+
+        form.onchange = () => {
+            updateCanvas();
+            createImage();
+        }
     </script>
 </body>
 </html>
