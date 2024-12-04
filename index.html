@@ -47,6 +47,8 @@
 
         .left-container .title h1 {
             font-family: 'sitelen-seli-kiwen-asuki';
+            font-weight: normal;
+            font-size: 2.4em;
             margin: 0;
             padding: 0;
         }
@@ -128,7 +130,7 @@
                     </label>
                     <label>
                         <div>Text size</div>
-                        <input type="range" min="1" max="460" value="400" id="font-size" />
+                        <input type="range" min="18" max="460" value="400" id="font-size" />
                     </label>
                 </div>
             </form>
@@ -142,6 +144,12 @@
         const form = document.getElementById("input");
 
         const textElement = document.getElementById("text");
+
+        document.body.onclick = () => {
+            if (!textElement.matches(':hover')) {
+                textElement.blur()
+            }
+        }
 
         const canvas = document.getElementById("canvas");
         canvas.width = 4096;
@@ -184,10 +192,10 @@
         }
 
         function createImage() {
-            canvas.style.display = "none";
-            image.style.display = "initial";
-
             image.src = canvas.toDataURL('image/jpeg');
+
+            image.style.display = "initial";
+            canvas.style.display = "none";
         }
 
         document.fonts.ready.then(function () {
