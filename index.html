@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>text to sitelen pona</title>
     <style>
+
         @font-face {
             font-family: 'sitelen-seli-kiwen-asuki';
             src: url(sitelenselikiwenasuki.ttf);
@@ -72,6 +73,37 @@
             flex-direction: row;
         }
 
+        
+        #font-size {
+            -webkit-appearance: none;
+            appearance: none;
+            width: max-content;
+            height: 10px;
+            background-color: black;
+        }
+
+        #font-size::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 17px;
+            height: 17px;
+            background-color: white;
+            box-sizing: border-box;
+            border: 2px solid black;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #font-size::-moz-range-thumb {
+            width: 17px;
+            height: 17px;
+            background-color: white;
+            box-sizing: border-box;
+            border: 2px solid black;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
         #input label {
             box-sizing: border-box;
             font-size: 20px;
@@ -130,7 +162,7 @@
                     </label>
                     <label>
                         <div>Text size</div>
-                        <input type="range" min="18" max="460" value="400" id="font-size" />
+                        <input type="range" min="18" max="450" value="220" id="font-size" />
                     </label>
                 </div>
             </form>
@@ -152,8 +184,8 @@
         }
 
         const canvas = document.getElementById("canvas");
-        canvas.width = 4096;
-        canvas.height = 4096;
+        canvas.width = 2048;
+        canvas.height = 2048;
         const ctx = canvas.getContext("2d");
 
         const textColorElement = document.getElementById("text-color");
@@ -185,7 +217,7 @@
             ctx.font = `${fontSize}px 'sitelen-seli-kiwen-asuki'`;
 
             for (let i = 0; i < text.length; i++) {
-                ctx.fillText(text[i], 150+fontSize/4, 200+(fontSize)+i*fontSize);
+                ctx.fillText(text[i], 75+fontSize/4, 100+(fontSize)+i*fontSize);
                 
             }
             
@@ -194,8 +226,10 @@
         function createImage() {
             image.src = canvas.toDataURL('image/jpeg');
 
-            image.style.display = "initial";
-            canvas.style.display = "none";
+            image.onload = () => {
+                image.style.display = "initial";
+                canvas.style.display = "none";
+            }
         }
 
         document.fonts.ready.then(function () {
