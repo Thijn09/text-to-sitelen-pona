@@ -60,17 +60,13 @@
         canvas.height = 2048;
         const ctx = canvas.getContext("2d");
 
-        function parseURLParameters(url) {
-            url = url.toString();
-            let params = url.match(/(?<=\/fetch\/?\?).*/).toString();
-            const paramsList = params.split("&");
-            const paramsObject = {};
-            paramsList.forEach((value, index) => {
-                const keyValueList = value.split("=");
-                paramsObject[decodeURI(keyValueList[0])] = decodeURI(keyValueList[1]);
+        function parseURLParameters() {
+            const params = new URLSearchParams(window.location.search);
+            const query = {};
+            params.forEach((value, key) => {
+                query[key] = value;
             });
-
-            return paramsObject;
+            return query;
         }
         
         function updateCanvas(parameters) {
@@ -85,14 +81,14 @@
             text = text.split("\n");
 
             ctx.rect(0, 0, 4096, 4096);
-            ctx.fillStyle = parameters.bcolor == undefined ? "black" : parameters.bcolor;
+            ctx.fillStyle = parameters.bcolor || "black";
             ctx.fill();
 
-            ctx.fillStyle = parameters.tcolor == undefined ? "white" : parameters.tcolor;
+            ctx.fillStyle = parameters.tcolor || "white";
 
-            let fontSize = parseFloat(parameters.fontsize == undefined ? 200 : parameters.fontsize);
+            let fontSize = parseFloat(parameters.fontsize || 200);
             
-            ctx.font = `${fontSize}px '${parameters.font == undefined ? "nasin-nanpa" : parameters.font}'`;
+            ctx.font = `${fontSize}px '${parameters.font || "nasin-nanpa"}'`;
 
             for (let i = 0; i < text.length; i++) {
                 ctx.fillText(text[i], 75+fontSize/4, 100+(fontSize)+i*fontSize);
@@ -100,17 +96,22 @@
         }
 
         function createImage() {
-            const imgFile = canvas.toDataURL('image/jpeg');
+            function imgLoaded(blob) {
+                const url = URL.createObjectURL(blob);
 
-            const a = document.createElement("a");
-            document.body.appendChild(a);
-            a.href = imgFile;
-            a.download = "sitelen_pona.jpg";
-            a.click();
+                const a = document.createElement("a");
+                document.body.appendChild(a);
+                a.href = url;
+                a.download = "sitelen_pona.jpg";
+                a.click();
+                a.remove();
+            }
+
+            const imgURL = canvas.toBlob(imgLoaded,"image/jpeg");
         }
 
         document.fonts.ready.then(function () {
-            const params = parseURLParameters(window.location.href);
+            const params = parseURLParameters();
             test.innerText = params;
             updateCanvas(params);
             createImage();
