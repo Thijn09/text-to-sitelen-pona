@@ -99,12 +99,9 @@
             function imgLoaded(blob) {
                 const url = URL.createObjectURL(blob);
 
-                const a = document.createElement("a");
-                document.body.appendChild(a);
-                a.href = url;
-                a.download = "sitelen_pona.jpg";
-                a.click();
-                a.remove();
+                const img = document.createElement("img");
+                document.write(img);
+                img.src = url;
             }
 
             const imgURL = canvas.toBlob(imgLoaded,"image/jpeg");
@@ -112,7 +109,7 @@
 
         document.fonts.ready.then(function () {
             const params = parseURLParameters();
-            test.innerText = params;
+            //test.innerText = params;
             updateCanvas(params);
             createImage();
         });
