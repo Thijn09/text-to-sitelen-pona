@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>text to sitelen pona</title>
+    <style>
+
+        @font-face {
+            font-family: 'sitelen-seli-kiwen-asuki';
+            src: url(../sitelenselikiwenasuki.ttf);
+        }
+
+        @font-face {
+            font-family: 'nasin-nanpa';
+            src: url(../nasin-nanpa-5.0.0-beta.1.otf);
+        }
+
+        .font-loader {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+            outline: none;
+            border: none;
+            font-family: 'sitelen-seli-kiwen-asuki';
+        }
+
+        .font-loader.sitelen-seli-kiwen-asuki {
+            font-family: 'sitelen-seli-kiwen-asuki';
+        }
+
+        .font-loader.nasin-nanpa {
+            font-family: 'nasin-nanpa';
+        }
+
+        #canvas {
+            float: left;
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            box-sizing: border-box;
+            font-family: 'sitelen-seli-kiwen-asuki';
+        }
+    </style>
+</head>
+<body>
+    <p id="test"></p>
+    <canvas id="canvas"></canvas>
+    <span class="font-loader nasin-nanpa">toki</span>
+    <span class="font-loader sitelen-seli-kiwen-asuki">toki</span>
+    <script>
+        const test = document.getElementById("test");
+
+        const canvas = document.getElementById("canvas");
+        canvas.width = 2048;
+        canvas.height = 2048;
+        const ctx = canvas.getContext("2d");
+
+        function parseURLParameters(url) {
+            url = url.toString();
+            let params = url.match(/(?<=\/fetch\/?\?).*/).toString();
+            const paramsList = params.split("&");
+            const paramsObject = {};
+            paramsList.forEach((value, index) => {
+                const keyValueList = value.split("=");
+                paramsObject[decodeURI(keyValueList[0])] = decodeURI(keyValueList[1]);
+            });
+
+            return paramsObject;
+        }
+        
+        function updateCanvas(parameters) {
+            let text = parameters.text;
+
+            text = text.replace(/(?<=\w|\.|\:) (?=\w)/, "|");
+
+            text = text.replace(/\\x([0-9A-F]{2})/gi, function (a,b) { return String.fromCharCode(parseInt(b,16)); });
+            text = text.replace(/\\u([0-9A-F]{4})/gi, function (a,b) { return String.fromCharCode(parseInt(b,16)); });
+            text = text.replace(/\\u\{([0-9A-F]+)\}/gi, function (a,b) { return String.fromCharCode(parseInt(b,16)); });
+
+            text = text.split("\n");
+
+            ctx.rect(0, 0, 4096, 4096);
+            ctx.fillStyle = parameters.bcolor == undefined ? "black" : parameters.bcolor;
+            ctx.fill();
+
+            ctx.fillStyle = parameters.tcolor == undefined ? "white" : parameters.tcolor;
+
+            let fontSize = parseFloat(parameters.fontsize == undefined ? 200 : parameters.fontsize);
+            
+            ctx.font = `${fontSize}px '${parameters.font == undefined ? "nasin-nanpa" : parameters.font}'`;
+
+            for (let i = 0; i < text.length; i++) {
+                ctx.fillText(text[i], 75+fontSize/4, 100+(fontSize)+i*fontSize);
+            }
+        }
+
+        function createImage() {
+            const imgFile = canvas.toDataURL('image/jpeg');
+
+            const a = document.createElement("a");
+            document.body.appendChild(a);
+            a.href = imgFile;
+            a.download = "sitelen_pona.jpg";
+            a.click();
+        }
+
+        document.fonts.ready.then(function () {
+            const params = parseURLParameters(window.location.href);
+            test.innerText = params;
+            updateCanvas(params);
+            createImage();
+        });
+    </script>
+</body>
+</html>
